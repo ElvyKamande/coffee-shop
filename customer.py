@@ -30,3 +30,17 @@ class Order:
     @property
     def customer(self):
         return self._customer
+
+    @classmethod
+    def most_aficionado(cls, coffee):
+        orders = [order for order in getattr(Order, "all", []) if getattr(order, "coffee", None) == coffee]
+        if not orders:
+            return None
+        spending = {}
+        for order in orders:
+            customer = order.customer
+            price = getattr(order, "price", 0)
+            spending[customer] = spending.get(customer, 0) + price
+        if not spending:
+            return None
+        return max(spending, key=spending.get)

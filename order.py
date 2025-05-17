@@ -16,3 +16,15 @@ class Order:
             self.customer = customer
             self.coffee = coffee
             Order.all_orders.append(self)
+            self.price = price
+
+        @classmethod
+        def count_for_coffee(cls, coffee):
+            return sum(1 for order in cls.all_orders if order.coffee == coffee)
+        
+        @classmethod
+        def average_price_for_coffee(cls, coffee):
+            prices = [order.price for order in cls.all_orders if order.coffee == coffee]
+            if not prices:
+                return 0
+            return sum(prices) / len(prices)
